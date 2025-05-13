@@ -686,25 +686,19 @@ procdump(void)
     printf("\n");
   }
 }
-
+//TODO
 int peterson_create(void){
   if(!intialized){
     initPeterson();
     intialized = 1;
   }
   for(int i = 0; i < PETERSON_LOCKS; i++){
-    //peterson_acquire(i, 0);
-    if(!pLocks.locks[i].created){
-      printf("i = %d\n", i);
+    if(__sync_lock_test_and_set(&pLocks.locks[i].created, 1) == 0){
+      __sync_synchronize();
       pLocks.locks[i].flag[0] = 0;
       pLocks.locks[i].flag[1] = 0;
       pLocks.locks[i].turn = 0;
-      pLocks.locks[i].created = 1;
-      //peterson_release(i, 0);
       return i;
-    }
-    else{
-      //peterson_release(i, 0);
     }
   }
   return -1;
