@@ -54,7 +54,7 @@ int tournament_acquire(void){
         return -1;
     }
 
-    for(int lvl = levels - 1; lvl >= 0; lvl--){
+    for(int lvl = levels -1; lvl >= 0; lvl--){
         int lock_lvl = process_index >> (levels - lvl);
         int i = lock_lvl + (1 << lvl) - 1;
         int role = (process_index & (1 << (levels - lvl - 1))) >> (levels - lvl -1);
